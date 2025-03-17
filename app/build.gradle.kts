@@ -52,21 +52,7 @@ android {
         // only package supported languages
         resourceConfigurations += listOf(
             "en",
-            "da",
-            "de",
-            "es",
-            "fr",
-            "fy",
-            "hr",
-            "ja",
-            "lt",
             "nl",
-            "no",
-            "ro",
-            "sk",
-            "sl",
-            "sr",
-            "tr"
         )
     }
 
