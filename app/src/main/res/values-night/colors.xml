@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor">#E67009</color>
+    <color name="primaryLightColor">#FF9A35</color>
+    <color name="primaryDarkColor">#9C4A00</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="scanColor">#FFFFFF</color>
+    <color name="basicColor">#dddddd</color>
+
+    <color name="linkColor">#0288D1</color>
+    <color name="errorColor">#F44336</color>
+
+    <color name="white">#000000</color>
+    <color name="grey_50">#333333</color>
+
+    <color name="actionbarBackground">#E67009</color>
+</resources>
