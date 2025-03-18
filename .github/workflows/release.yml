@@ -1,0 +1,58 @@
+name: Release Build
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - uses: actions/setup-java@v4
+      with:
+        java-version: 17
+        distribution: 'temurin'
+        cache: 'gradle'
+
+    - name: Build GovSecureID app bundle
+      run: ./gradlew bundleRelease
+    - name: Sign GovSecureID app Bundle
+      id: sign_aab
+      uses: ilharp/sign-android-release@v1
+      with:
+        releaseDir: app/build/outputs/bundle/release/
+        signingKey: ${{ secrets.SIGNINGKEYBASE64 }}
+        keyAlias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEYSTOREPASSWORD }}
+        keyPassword: ${{ secrets.KEYPASSWORD }}
+        buildToolsVersion: 35.0.0
+
+    - name: Build Changelog
+      id: changelog
+      uses: ardalanamini/auto-changelog@v4
+
+    - name: Create release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: Release ${{ github.ref }}
+        tag_name: ${{ github.ref }}
+        body: |
+          ${{ steps.changelog.outputs.changelog }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Publish to play store test track
+      uses: r0adkll/upload-google-play@v1
+      with:
+        serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        packageName: nl.govroam.govconext.govsecureid
+        releaseFiles: ${{ steps.sign_aab.outputs.signedFile }}
+        track: alpha
+        status: completed

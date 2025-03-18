@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.google.gms.gradle)
 }
 
 fun String.runCommand(workingDir: File = file("./")): String {
@@ -41,7 +42,6 @@ android {
         manifestPlaceholders["tiqr_config_token_exchange_base_url"] = "https://tx.tiqr.org/"
         manifestPlaceholders["tiqr_config_protocol_version"] = "2"
         manifestPlaceholders["tiqr_config_protocol_compatibility_mode"] = "true"
-        manifestPlaceholders["tiqr_config_enforce_challenge_hosts"] = ""
         manifestPlaceholders["tiqr_config_enroll_path_param"] = "tiqrenroll"
         manifestPlaceholders["tiqr_config_auth_path_param"] = "tiqrauth"
         manifestPlaceholders["tiqr_config_enroll_scheme"] = "tiqrenroll"
@@ -70,6 +70,7 @@ android {
             } else {
                 null
             }
+            manifestPlaceholders["tiqr_config_enforce_challenge_hosts"] = "tiqr.acc.govconext.nl"
         }
         debug {
             isDebuggable = isAppDebuggable
@@ -81,6 +82,7 @@ android {
             } else {
                 null
             }
+            manifestPlaceholders["tiqr_config_enforce_challenge_hosts"] = "govsecureid.govconext.nl"
         }
     }
     compileOptions {
@@ -107,4 +109,13 @@ dependencies {
     ksp(libs.dagger.hilt.compiler)
 
     implementation(libs.coil)
+}
+
+// Disable analytics
+configurations {
+    all {
+        exclude(group = "com.google.firebase", module = "firebase-core")
+        exclude(group = "com.google.firebase", module = "firebase-analytics")
+        exclude(group = "com.google.firebase", module = "firebase-measurement-connector")
+    }
 }
