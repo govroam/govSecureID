@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "630369335300",
+    "project_id": "",
+    "storage_bucket": ""
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630369335300:android:bb4fe9ded91918ad015d51",
+        "android_client_info": {
+          "package_name": "nl.govroam.govconext.govsecureid.staging"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": ""
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

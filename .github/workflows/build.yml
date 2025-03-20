@@ -1,0 +1,94 @@
+name: Android Build & Firebase Distribution
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      # Decode Firebase service account JSON files from GitHub Secrets
+      - name: Decode Firebase service account - ACC
+        env:
+          FIREBASE_SERVICE_ACCOUNT_DEBUG: ${{ secrets.FIREBASE_ACC_SERVICE_ACCOUNT_JSON }}
+        run: echo $FIREBASE_SERVICE_ACCOUNT_DEBUG | base64 --decode > firebase-service-account-debug.json
+
+      - name: Decode Firebase service account - Release
+        env:
+          FIREBASE_SERVICE_ACCOUNT_RELEASE: ${{ secrets.FIREBASE_PROD_SERVICE_ACCOUNT_JSON }}
+        run: echo $FIREBASE_SERVICE_ACCOUNT_RELEASE | base64 --decode > firebase-service-account-release.json
+
+      # Decode google-services.json files for both environments
+      - name: Decode google-services.json for ACC (Debug)
+        env:
+          GOOGLE_SERVICES_JSON_ACC: ${{ secrets.FIREBASE_ACC_GOOGLE_SERVICES }}
+        run: echo $GOOGLE_SERVICES_JSON_ACC | base64 --decode > app/src/debug/google-services.json
+
+      - name: Decode google-services.json for PROD (Release)
+        env:
+          GOOGLE_SERVICES_JSON_PROD: ${{ secrets.FIREBASE_PROD_GOOGLE_SERVICES }}
+        run: echo $GOOGLE_SERVICES_JSON_PROD | base64 --decode > app/src/release/google-services.json
+
+      # Build Debug APK
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      # Deploy Debug APK to Firebase App Distribution (QA/Test)
+      - name: Deploy Debug APK to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_ACC_APP_ID }}
+          serviceCredentialsFile: firebase-service-account-debug.json
+          groups: testers
+          file: app/build/outputs/apk/debug/app-debug.apk
+          releaseNotes: |
+            Debug build from branch ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+
+      # Build Release AAB
+      - name: Build Release AAB
+        run: ./gradlew bundleRelease
+
+      - name: Sign Release AAB
+        id: sign_aab
+        uses: ilharp/sign-android-release@v1
+        with:
+          releaseDir: app/build/outputs/bundle/release/
+          signingKey: ${{ secrets.KEYSTORE_BASE64 }}
+          keyAlias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+          buildToolsVersion: 35.0.0
+
+      # Deploy Release AAB to Firebase App Distribution (Production)
+      - name: Deploy Release AAB to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_PROD_APP_ID }}
+          serviceCredentialsFile: firebase-service-account-release.json
+          groups: production-testers
+          file: app/build/outputs/bundle/release/app-release.aab
+          releaseNotes: |
+            Production build from branch ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
