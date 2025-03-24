@@ -52,26 +52,34 @@ jobs:
           groups: testers
           file: app/build/outputs/apk/debug/app-debug-unsigned.apk
 
-      # Build Release AAB
-      - name: Build Release AAB
-        run: ./gradlew bundleRelease
+      # Build Release APK
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
 
-      - name: Sign Release AAB
-        id: sign_aab
+      - name: Sign Release APK
+        id: sign_apk
         uses: ilharp/sign-android-release@v1
         with:
-          releaseDir: app/build/outputs/bundle/release/
+          releaseDir: app/build/outputs/apk/release/
           signingKey: ${{ secrets.KEYSTORE_BASE64 }}
           keyAlias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
           buildToolsVersion: 35.0.0
 
-      # Deploy Release AAB to Firebase App Distribution (Production)
-      - name: Deploy Release AAB to Firebase
+      # Log ALL details about the signing output
+      - name: Log signing output details
+        run: |
+          echo "All signing step outputs:"
+          echo "signedReleaseFile: ${{steps.sign_apk.outputs.signedFile}}"
+          echo "All files in release directory after signing:"
+          find app/build/outputs/apk -name "*.apk" -type f | xargs ls -la
+
+      # Deploy Release APK to Firebase App Distribution (Production)
+      - name: Deploy Release APK to Firebase
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_PROD_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.FIREBASE_PROD_SERVICE_ACCOUNT_JSON }}
           groups: testers
-          file: app/build/outputs/bundle/release/app-release.aab
+          file: ${{steps.sign_apk.outputs.signedFile}}
