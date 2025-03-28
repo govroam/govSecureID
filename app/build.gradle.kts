@@ -70,7 +70,7 @@ android {
             } else {
                 null
             }
-            manifestPlaceholders["tiqr_config_enforce_challenge_hosts"] = "tiqr.acc.govconext.nl"
+            manifestPlaceholders["tiqr_config_enforce_challenge_hosts"] = "govsecureid.govconext.nl"
         }
         debug {
             isDebuggable = isAppDebuggable
@@ -82,7 +82,7 @@ android {
             } else {
                 null
             }
-            manifestPlaceholders["tiqr_config_enforce_challenge_hosts"] = "govsecureid.govconext.nl"
+            manifestPlaceholders["tiqr_config_enforce_challenge_hosts"] = "tiqr.acc.govconext.nl"
         }
     }
     compileOptions {
