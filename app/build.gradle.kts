@@ -77,11 +77,7 @@ android {
             isMinifyEnabled = false
             isShrinkResources = false
             applicationIdSuffix = ".staging"
-            signingConfig = if (isAppDebuggable) {
-                signingConfigs.getByName("debug")
-            } else {
-                null
-            }
+            signingConfig = signingConfigs.getByName("debug")
             manifestPlaceholders["tiqr_config_enforce_challenge_hosts"] = "tiqr.acc.govconext.nl"
         }
     }
