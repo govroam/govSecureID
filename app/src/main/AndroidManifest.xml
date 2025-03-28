@@ -19,7 +19,7 @@
 
     <application
         android:name=".GovSecureIdApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/backup_descriptor_v31"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
