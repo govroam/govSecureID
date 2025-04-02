@@ -13,5 +13,6 @@
     <color name="white">#000000</color>
     <color name="grey_50">#333333</color>
 
+    <color name="background">#222222</color>
     <color name="actionbarBackground">#BBC5D2</color>
 </resources>

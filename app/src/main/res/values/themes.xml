@@ -11,6 +11,8 @@
         <item name="colorError">@color/errorColor</item>
         <item name="android:colorBackground">@color/grey_50</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/primaryColor</item>
+        <item name="android:windowBackground">@color/background</item>
 
         <item name="android:autofilledHighlight" tools:ignore="NewApi">@android:color/transparent</item>
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
