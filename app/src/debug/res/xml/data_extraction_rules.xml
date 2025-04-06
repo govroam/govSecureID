@@ -9,22 +9,22 @@
         <!-- Backup and restore the keystore -->
         <include domain="file" path="MobileAuthDb.kstore" />
         <!-- Backup and restore the preferences -->
-        <include domain="sharedpref" path="nl.govroam.govconext.govsecureid:security.xml"/>
-        <include domain="sharedpref" path="nl.govroam.govconext.govsecureid:version.xml"/>
+        <include domain="sharedpref" path="nl.govroam.govconext.govsecureid.staging:security.xml"/>
+        <include domain="sharedpref" path="nl.govroam.govconext.govsecureid.staging:version.xml"/>
         <!-- All other files, databases, preferences will automatically be excluded from backup and restore -->
     </cloud-backup>
     <device-transfer>
-        <!-- Backup and restore the database -->
+         Backup and restore the database
         <include domain="database" path="identities.db" />
         <include domain="database" path="identities.db-journal" />
         <include domain="database" path="identities.db-shm" />
         <include domain="database" path="identities.db-wal" />
-        <!-- Backup and restore the keystore -->
+         Backup and restore the keystore
         <include domain="file" path="MobileAuthDb.kstore" />
-        <!-- Backup and restore the preferences -->
-        <include domain="sharedpref" path="nl.govroam.govconext.govsecureid:security.xml"/>
-        <include domain="sharedpref" path="nl.govroam.govconext.govsecureid:version.xml"/>
-        <!-- All other files, databases, preferences will automatically be excluded from backup and restore -->
+         Backup and restore the preferences
+        <include domain="sharedpref" path="nl.govroam.govconext.govsecureid.staging:security.xml"/>
+        <include domain="sharedpref" path="nl.govroam.govconext.govsecureid.staging:version.xml"/>
+         All other files, databases, preferences will automatically be excluded from backup and restore
     </device-transfer>
 
 </data-extraction-rules>

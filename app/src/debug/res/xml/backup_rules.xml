@@ -8,7 +8,7 @@
     <!-- Backup and restore the keystore -->
     <include domain="file" path="MobileAuthDb.kstore" />
     <!-- Backup and restore the preferences -->
-    <include domain="sharedpref" path="nl.govroam.govconext.govsecureid:security.xml"/>
-    <include domain="sharedpref" path="nl.govroam.govconext.govsecureid:version.xml"/>
+    <include domain="sharedpref" path="nl.govroam.govconext.govsecureid.staging:security.xml"/>
+    <include domain="sharedpref" path="nl.govroam.govconext.govsecureid.staging:version.xml"/>
     <!-- All other files, databases, preferences will automatically be excluded from backup and restore -->
 </full-backup-content>
