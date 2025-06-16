@@ -45,7 +45,6 @@ android {
         manifestPlaceholders["tiqr_config_enroll_path_param"] = "tiqrenroll"
         manifestPlaceholders["tiqr_config_auth_path_param"] = "tiqrauth"
         manifestPlaceholders["tiqr_config_enroll_scheme"] = "tiqrenroll"
-        manifestPlaceholders["tiqr_config_auth_scheme"] = "tiqrauth"
         manifestPlaceholders["tiqr_config_token_exchange_enabled"] = "false"
         manifestPlaceholders["tiqr_config_in_app_update_check_enabled"] = "true"
 
@@ -70,7 +69,8 @@ android {
             } else {
                 null
             }
-            manifestPlaceholders["tiqr_config_enforce_challenge_hosts"] = "govsecureid.govconext.nl"
+            manifestPlaceholders["tiqr_config_enforce_challenge_hosts"] = "govsecureidapp.govconext.nl"
+            manifestPlaceholders["tiqr_config_auth_scheme"] = "tiqrauth"
         }
         debug {
             isDebuggable = isAppDebuggable
@@ -79,6 +79,7 @@ android {
             applicationIdSuffix = ".staging"
             signingConfig = signingConfigs.getByName("debug")
             manifestPlaceholders["tiqr_config_enforce_challenge_hosts"] = "tiqr.acc.govconext.nl"
+            manifestPlaceholders["tiqr_config_auth_scheme"] = "tiqrtestauth"
         }
     }
     compileOptions {
