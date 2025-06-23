@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">GovSecureID</string>
+    <string name="app_name" translatable="false">govSecureID</string>
     <string name="app_url" translatable="false">https://govroam.nl/</string>
     <string name="bottom_menu_company_url" translatable="false">https://govroam.nl/</string>
 
