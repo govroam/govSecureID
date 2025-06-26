@@ -34,7 +34,7 @@ android {
         minSdk = libs.versions.android.sdk.min.get().toInt()
         targetSdk = libs.versions.android.sdk.target.get().toInt()
         versionCode = gitTagCount + ciRunCount
-        versionName = gitTag.trim().drop(1) ?: "1.0.0" + " core($gitCoreSha)"
+        versionName = gitTag.trim().drop(1) + " core($gitCoreSha)"
 
         testInstrumentationRunner = "org.tiqr.authenticator.runner.HiltAndroidTestRunner"
 
