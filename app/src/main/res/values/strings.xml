@@ -9,4 +9,18 @@
     <br/>
     During the activation process you have to scan a QR code.
     Press <b>Scan</b> when asked.]]></string>
+
+    <string name="start_instructions"><![CDATA[<b>Use govSecureID on your smartphone to log in</b> <br/>
+    <br/>
+    1. Open the govSecureID push message or press <b>Scan</b> and scan the QR-code on the website.<br/>
+    <br/>
+    2. Scan your biometric or enter your PIN for govSecureID and press <b>OK</b> <br/>
+    <br/>
+    3. You are logged in!]]></string>
+
+    <string name="scan_permission_required_message">For scanning a QR code, govSecureID needs access to the camera.</string>
+
+    <string name="auth_pin_title">Enter your PIN for govSecureID</string>
+
+    <string name="enroll_pin_title">Choose a unique PIN for govSecureID</string>
 </resources>
