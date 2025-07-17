@@ -65,6 +65,7 @@ lint/tmp/
 .bundle/
 vendor/
 
+app/keystore/
 keystore.jks
 keystore.jks.base64.txt
 encrypted_private_key_path
