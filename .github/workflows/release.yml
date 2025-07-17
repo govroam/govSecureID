@@ -27,9 +27,9 @@ jobs:
       with:
         releaseDir: app/build/outputs/bundle/release/
         signingKey: ${{ secrets.KEYSTORE_BASE64 }}
-        keyAlias: ${{ secrets.ALIAS }}
-        keyStorePassword: ${{ secrets.KEYSTOREPASSWORD }}
-        keyPassword: ${{ secrets.KEYPASSWORD }}
+        keyAlias: ${{ secrets.KEY_ALIAS }}
+        keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
         buildToolsVersion: 35.0.0
 
     - name: Build Changelog
