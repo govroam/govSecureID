@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.google.gms.gradle)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 fun String.runCommand(workingDir: File = file("./")): String {
@@ -106,13 +107,6 @@ dependencies {
     ksp(libs.dagger.hilt.compiler)
 
     implementation(libs.coil)
-}
 
-// Disable analytics
-configurations {
-    all {
-        exclude(group = "com.google.firebase", module = "firebase-core")
-        exclude(group = "com.google.firebase", module = "firebase-analytics")
-        exclude(group = "com.google.firebase", module = "firebase-measurement-connector")
-    }
+    implementation(libs.firebase.crashlytics)
 }

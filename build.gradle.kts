@@ -8,4 +8,5 @@ plugins {
     alias(libs.plugins.safe.args) apply false
     alias(libs.plugins.kapt) apply false
     alias(libs.plugins.google.gms.gradle) apply false
+    alias(libs.plugins.firebase.crashlytics) apply false
 }
