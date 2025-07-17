@@ -1,9 +1,10 @@
 name: Release Build
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - 'v*'
+    inputs:
+      tag:
+        description: 'Release name (e.g., 1.0.0)'
+        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,8 +42,8 @@ jobs:
       with:
         draft: false
         prerelease: false
-        release_name: Release ${{ github.ref }}
-        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.event.inputs.tag }}
+        tag_name: ${{ github.event.inputs.tag }}
         body: |
           ${{ steps.changelog.outputs.changelog }}
       env:
