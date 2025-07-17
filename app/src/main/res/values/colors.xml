@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor">#BBC5D2</color>
+    <color name="primaryLightColor">#BBC5D2</color>
+    <color name="primaryDarkColor">#BBC5D2</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="scanColor">#FFFFFF</color>
+    <color name="basicColor">#000000</color>
+    <color name="brandColor">#E67009</color>
+
+    <color name="linkColor">#0288D1</color>
+    <color name="errorColor">#F44336</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="grey_50">#FAFAFA</color>
+    <color name="dark_grey">#4B4F54</color>
+    <color name="light_grey">#EAECEE</color>
+
+    <color name="background">#FFFFFF</color>
+    <color name="actionbarBackground">#BBC5D2</color>
+</resources>

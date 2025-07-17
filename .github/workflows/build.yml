@@ -1,0 +1,85 @@
+name: Android Build & Firebase Distribution
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      # Decode google-services.json files for both environments
+      - name: Decode google-services.json for ACC (Debug)
+        env:
+          GOOGLE_SERVICES_JSON_ACC: ${{ secrets.FIREBASE_ACC_GOOGLE_SERVICES }}
+        run: echo $GOOGLE_SERVICES_JSON_ACC > app/src/debug/google-services.json
+
+      - name: Decode google-services.json for PROD (Release)
+        env:
+          GOOGLE_SERVICES_JSON_PROD: ${{ secrets.FIREBASE_PROD_GOOGLE_SERVICES }}
+        run: echo $GOOGLE_SERVICES_JSON_PROD > app/src/release/google-services.json
+
+      # Build Debug APK
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      # Deploy Debug APK to Firebase App Distribution (QA/Test)
+      - name: Deploy Debug APK to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_ACC_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_ACC_SERVICE_ACCOUNT_JSON }}
+          groups: testers
+          file: app/build/outputs/apk/debug/app-debug.apk
+
+      # Build Release APK
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
+
+      - name: Sign Release APK
+        id: sign_apk
+        uses: ilharp/sign-android-release@v1
+        with:
+          releaseDir: app/build/outputs/apk/release/
+          signingKey: ${{ secrets.KEYSTORE_BASE64 }}
+          keyAlias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+          buildToolsVersion: 35.0.0
+
+      # Log ALL details about the signing output
+      - name: Log signing output details
+        run: |
+          echo "All signing step outputs:"
+          echo "signedReleaseFile: ${{steps.sign_apk.outputs.signedFile}}"
+          echo "All files in release directory after signing:"
+          find app/build/outputs/apk -name "*.apk" -type f | xargs ls -la
+
+      # Deploy Release APK to Firebase App Distribution (Production)
+      - name: Deploy Release APK to Firebase
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_PROD_APP_ID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_PROD_SERVICE_ACCOUNT_JSON }}
+          groups: testers
+          file: ${{steps.sign_apk.outputs.signedFile}}

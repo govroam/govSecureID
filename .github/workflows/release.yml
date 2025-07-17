@@ -1,0 +1,57 @@
+name: Release Build
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release name (e.g., 1.0.0)'
+        required: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        submodules: recursive
+    - uses: actions/setup-java@v4
+      with:
+        java-version: 17
+        distribution: 'temurin'
+        cache: 'gradle'
+
+    - name: Build GovSecureID app bundle
+      run: ./gradlew bundleRelease
+    - name: Sign GovSecureID app Bundle
+      id: sign_aab
+      uses: ilharp/sign-android-release@v1
+      with:
+        releaseDir: app/build/outputs/bundle/release/
+        signingKey: ${{ secrets.KEYSTORE_BASE64 }}
+        keyAlias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEYSTOREPASSWORD }}
+        keyPassword: ${{ secrets.KEYPASSWORD }}
+        buildToolsVersion: 35.0.0
+
+    - name: Build Changelog
+      id: changelog
+      uses: ardalanamini/auto-changelog@v4
+
+    - name: Create release
+      uses: actions/create-release@v1
+      id: create_release
+      with:
+        draft: false
+        prerelease: false
+        release_name: Release ${{ github.event.inputs.tag }}
+        tag_name: ${{ github.event.inputs.tag }}
+        body: |
+          ${{ steps.changelog.outputs.changelog }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Archive release bundle
+      uses: actions/upload-artifact@v4
+      with:
+        name: mobile-${{ github.sha }}-release.aab
+        path: app/build/outputs/bundle/release/app-release.aab
+        retention-days: 2

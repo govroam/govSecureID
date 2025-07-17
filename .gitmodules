@@ -1,0 +1,3 @@
+[submodule "tiqr-app-core-android"]
+	path = tiqr-app-core-android
+	url = git@github.com:Tiqr/tiqr-app-core-android.git

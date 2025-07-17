@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name" translatable="false">govSecureID</string>
+    <string name="app_url" translatable="false">https://govroam.nl/</string>
+    <string name="bottom_menu_company_url" translatable="false">https://govroam.nl/</string>
+
+    <string name="start_welcome"><![CDATA[<b>Use GovSecureID on your smartphone to log in to websites easily and securely.</b><br/>
+    <br/>
+    Enhance the security of your <a href="https://govroam.nl/govconext">govConext</a> login. When an application requires the use of govSecureID, please follow the instructions for activation as shown in the web browser<br/>
+    <br/>
+    During the activation process you have to scan a QR code.
+    Press <b>Scan</b> when asked.]]></string>
+
+    <string name="start_instructions"><![CDATA[<b>Use govSecureID on your smartphone to log in</b> <br/>
+    <br/>
+    1. Open the govSecureID push message or press <b>Scan</b> and scan the QR-code on the website.<br/>
+    <br/>
+    2. Scan your biometric or enter your PIN for govSecureID and press <b>OK</b> <br/>
+    <br/>
+    3. You are logged in!]]></string>
+
+    <string name="scan_permission_required_message">For scanning a QR code, govSecureID needs access to the camera.</string>
+
+    <string name="auth_pin_title">Enter your PIN for govSecureID</string>
+
+    <string name="enroll_pin_title">Choose a unique PIN for govSecureID</string>
+</resources>
