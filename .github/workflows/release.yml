@@ -21,6 +21,7 @@ jobs:
 
     - name: Build GovSecureID app bundle
       run: ./gradlew bundleRelease
+      
     - name: Sign GovSecureID app Bundle
       id: sign_aab
       uses: ilharp/sign-android-release@v1
@@ -32,28 +33,9 @@ jobs:
         keyPassword: ${{ secrets.KEY_PASSWORD }}
         buildToolsVersion: 35.0.0
 
-    - name: Build Changelog
-      id: changelog
-      uses: ardalanamini/auto-changelog@v4
-      release-name: ${{ github.event.inputs.tag }}
-      release-name-prefix: "v"
-
-    - name: Create release
-      uses: actions/create-release@v1
-      id: create_release
-      with:
-        draft: false
-        prerelease: false
-        release_name: Release ${{ github.event.inputs.tag }}
-        tag_name: ${{ github.event.inputs.tag }}
-        body: |
-          ${{ steps.changelog.outputs.changelog }}
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-
-    - name: Archive release bundle
+    - name: Archive signed release bundle
       uses: actions/upload-artifact@v4
       with:
         name: mobile-${{ github.sha }}-release.aab
-        path: app/build/outputs/bundle/release/app-release.aab
+        path: app/build/outputs/bundle/release/app-release-signed.aab
         retention-days: 2
