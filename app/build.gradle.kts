@@ -1,6 +1,9 @@
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.gradle.ProguardFiles.getDefaultProguardFile
+import com.android.build.api.dsl.CommonExtension
+
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.google.gms.gradle)
@@ -21,7 +24,7 @@ fun String.runCommand(workingDir: File = file("./")): String {
 
 val isAppDebuggable = System.getenv("CI") != "true"
 
-android {
+extensions.configure<ApplicationExtension> {
     namespace = "nl.govroam.govsecureid"
     compileSdk = libs.versions.android.sdk.compile.get().toInt()
 
@@ -49,11 +52,14 @@ android {
         manifestPlaceholders["tiqr_config_token_exchange_enabled"] = "false"
         manifestPlaceholders["tiqr_config_in_app_update_check_enabled"] = "true"
 
+    }
+    
+    androidResources {
         // only package supported languages
-        resourceConfigurations += listOf(
+        localeFilters.addAll(listOf(
             "en",
-            "nl",
-        )
+            "nl"
+        ))
     }
 
     buildTypes {
@@ -84,11 +90,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     buildFeatures {
         dataBinding = true
@@ -97,6 +100,10 @@ android {
     lint {
         abortOnError = false
     }
+}
+
+kotlin {
+    jvmToolchain(21)
 }
 
 dependencies {
