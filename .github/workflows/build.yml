@@ -3,7 +3,7 @@ name: Android Build & Firebase Distribution
 on:
   push:
     branches:
-      - develop
+      - main
   workflow_dispatch:
 
 jobs:
