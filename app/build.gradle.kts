@@ -1,6 +1,4 @@
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.gradle.ProguardFiles.getDefaultProguardFile
-import com.android.build.api.dsl.CommonExtension
 
 plugins {
     alias(libs.plugins.android.application)
@@ -29,7 +27,7 @@ extensions.configure<ApplicationExtension> {
     compileSdk = libs.versions.android.sdk.compile.get().toInt()
 
     val gitTagCount = "git tag --list".runCommand().split('\n').size
-    val gitTag = "git describe --tags --dirty".runCommand()
+    val gitTag = "git describe --tags".runCommand()
     val gitCoreSha = "git submodule status".runCommand().substring(0, 8)
     val ciRunCount = System.getenv("GITHUB_RUN_NUMBER")?.toInt() ?: 0
 
