@@ -51,7 +51,7 @@ extensions.configure<ApplicationExtension> {
         manifestPlaceholders["tiqr_config_in_app_update_check_enabled"] = "true"
 
     }
-    
+
     androidResources {
         // only package supported languages
         localeFilters.addAll(listOf(

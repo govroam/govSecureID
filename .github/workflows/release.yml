@@ -15,7 +15,7 @@ jobs:
         submodules: recursive
     - uses: actions/setup-java@v4
       with:
-        java-version: 17
+        java-version: 21
         distribution: 'temurin'
         cache: 'gradle'
 
@@ -31,7 +31,7 @@ jobs:
         keyAlias: ${{ secrets.KEY_ALIAS }}
         keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
         keyPassword: ${{ secrets.KEY_PASSWORD }}
-        buildToolsVersion: 35.0.0
+        buildToolsVersion: 36.0.0
 
     - name: Archive signed release bundle
       uses: actions/upload-artifact@v4
